@@ -18,3 +18,11 @@ let tail_rec_product_tests = "tail recursion solution for exercise number 3" >::
 
 let _ = run_test_tt_main product_tests
 let _ = run_test_tt_main tail_rec_product_tests
+
+let concat_tests = "tests for concatenation function" >::: [
+  "empty list" >:: (fun _ -> assert_equal "" (concat []));
+  "one element list" >:: (fun _ -> assert_equal "a" (concat ["a"]));
+  "multiple elements list" >:: (fun _ -> assert_equal "asdf" (concat ["a";"s";"df"]))
+]
+
+let _ = run_test_tt_main concat_tests

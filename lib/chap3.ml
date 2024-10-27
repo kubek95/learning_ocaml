@@ -9,3 +9,8 @@ let product_tl lst =
   | x :: xs -> aux (x*acc) xs
 in
 aux 1 lst
+
+(*3rd exercise: concat*)
+let rec concat = function
+| [] -> ""
+| x :: xs -> x ^ concat xs
