@@ -26,3 +26,38 @@ let concat_tests = "tests for concatenation function" >::: [
 ]
 
 let _ = run_test_tt_main concat_tests
+
+let pattern_tests = "tests for bigred" >::: [
+  "first element is bigred" >:: (fun _ -> assert_equal true (first_is_bigred ["bigred"]));
+  "first element is not a bigred" >:: (fun _ -> assert_equal false (first_is_bigred ["smallgreen"]));
+  "empty list" >:: (fun _ -> assert_equal false (first_is_bigred []));
+]
+let count_elements_tests = "tests for 2 or 4 element list" >::: [
+  "empty list" >:: (fun _ -> assert_equal false (two_or_four_elements []));
+  "one element" >:: (fun _ -> assert_equal false (two_or_four_elements [1]));
+  "two elements" >:: (fun _ -> assert_equal true (two_or_four_elements [1;1]));
+  "four elements" >:: (fun _ -> assert_equal true (two_or_four_elements [1;1;1;1]));
+  "five elements" >:: (fun _ -> assert_equal false (two_or_four_elements [1;1;1;1;1]));
+]
+let two_fist_elements_tests = "tests for equality of first two elements" >::: [
+  "empty list" >:: (fun _ -> assert_equal false (two_first_equal []));
+  "one element" >:: (fun _ -> assert_equal false (two_first_equal [1]));
+  "two equal elements" >:: (fun _ -> assert_equal true (two_first_equal [1;1;4]));
+  "two unequal elements" >:: (fun _ -> assert_equal false (two_first_equal [1;3;5]));
+]
+let _ = run_test_tt_main pattern_tests
+let _ = run_test_tt_main count_elements_tests
+let _ = run_test_tt_main two_fist_elements_tests
+
+let get_fifth_element_tests = "test for getting fith element out of a list" >::: [
+  "empty list" >:: (fun _ -> assert_equal 0 (fifth_element []));
+  "one element" >:: (fun _ -> assert_equal 0 (fifth_element [1]));
+  "five elements" >:: (fun _ -> assert_equal 5 (fifth_element [1;2;3;4;5]));
+]
+let reverse_sort_tests = "test for sorting in descending order" >::: [
+  "empty list" >:: (fun _ -> assert_equal [] (sort_descending []));
+  "one element" >:: (fun _ -> assert_equal [1] (sort_descending [1]));
+  "multiple elements" >:: (fun _ -> assert_equal [3;2;1] (sort_descending [1;2;3]));
+]
+let _ = run_test_tt_main get_fifth_element_tests
+let _ = run_test_tt_main reverse_sort_tests
