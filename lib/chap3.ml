@@ -37,3 +37,46 @@ let fifth_element (list: int list): int =
 
 let sort_descending (list : int list) : int list =
   List.rev (List.sort Stdlib.compare list)
+
+(*6th exercise: library puzzle*)
+let get_last lst =
+  lst |> List.rev |> List.hd
+
+let any_zero lst =
+  let is_zero x = x = 0 in
+  List.exists is_zero lst
+
+(*7th exercise: take drop*)
+let rec take n = function
+  | [] -> []
+  | x :: xs ->
+    if n=0 then [] else x :: take (n-1) xs
+
+let rec drop n = function
+  | [] -> []
+  | x :: xs ->
+    if n=0 then x :: xs else drop (n-1) xs
+
+(*8th exercise: take tail recursive*)
+let take_tr n lst =
+  let rec aux acc n lst =
+    if n=0 then acc else match lst with
+    | [] -> acc
+    | x :: xs -> aux (x :: acc) (n-1) xs
+  in
+  lst |> aux [] n |> List.rev
+(*drop is already tail recursive*)
+
+(*9th exercise: unimodal*)
+let is_unimodal lst =
+  let rec is_mono_desc = function
+  | [] | [_] -> true
+  | x :: x' :: xs ->
+    if x >= x' then is_mono_desc (x' :: xs) else false
+  in
+  let rec is_asc_then_desc = function
+  | [] | [_] -> true
+  | x :: x' :: xs ->
+    if x < x' then is_asc_then_desc (x' :: xs) else is_mono_desc (x :: x' :: xs)
+  in
+  is_asc_then_desc lst

@@ -3,6 +3,9 @@ open Chap3
 
 let make_product_test name product_version expected_output input =
   name >::(fun _ -> assert_equal expected_output (product_version input) ~printer:string_of_int)
+let rec print_list = function
+  | [] -> ""
+  | x :: xs -> string_of_int x ^ " " ^ print_list xs
 
 let product_tests = "recursion solution for exercise number 3" >::: [
   make_product_test "given empty list expect product to be 1" product 1 [];
@@ -61,3 +64,46 @@ let reverse_sort_tests = "test for sorting in descending order" >::: [
 ]
 let _ = run_test_tt_main get_fifth_element_tests
 let _ = run_test_tt_main reverse_sort_tests
+
+let get_last_element_tests = "test for getting last element out of a list" >::: [
+  "one element" >:: (fun _ -> assert_equal 1 (get_last [1]));
+  "multiple elements" >:: (fun _ -> assert_equal 5 (get_last [1;2;3;4;5]));
+]
+let is_zero_in_list_tests = "test for presence of zero in a list" >::: [
+  "empty list" >:: (fun _ -> assert_equal false (any_zero []));
+  "no zero in multiple element" >:: (fun _ -> assert_equal false (any_zero [1;3;4]));
+  "zero in the list" >:: (fun _ -> assert_equal true (any_zero [1;2;0;3]));
+]
+let _ = run_test_tt_main get_last_element_tests
+let _ = run_test_tt_main is_zero_in_list_tests
+
+let take_tests = "test for getting sublist of a list" >::: [
+  "empty list" >:: (fun _ -> assert_equal [] (take 2 []));
+  "take zero elements" >:: (fun _ -> assert_equal [] (take 0 [1;2]));
+  "take more than list size" >:: (fun _ -> assert_equal [1;2] (take 3 [1;2]));
+  "take less than list size" >:: (fun _ -> assert_equal [1;2] (take 2 [1;2;3]));
+]
+let drop_tests = "test for droping n first elements of a list" >::: [
+  "empty list" >:: (fun _ -> assert_equal [] (drop 1 []) ~printer:print_list);
+  "drop zero elements" >:: (fun _ -> assert_equal [1;3] (drop 0 [1;3]) ~printer:print_list);
+  "drop more than the size" >:: (fun _ -> assert_equal [] (drop 3 [1;2]) ~printer:print_list);
+  "drop less than the size" >:: (fun _ -> assert_equal [3] (drop 2 [1;2;3]) ~printer:print_list);
+]
+let _ = run_test_tt_main take_tests
+let _ = run_test_tt_main drop_tests
+
+let take_tr_tests = "(tail rec ver) test for getting sublist of a list" >::: [
+  "empty list" >:: (fun _ -> assert_equal [] (take_tr 2 []));
+  "take zero elements" >:: (fun _ -> assert_equal [] (take_tr 0 [1;2]));
+  "take more than list size" >:: (fun _ -> assert_equal [1;2] (take_tr 3 [1;2]));
+  "take less than list size" >:: (fun _ -> assert_equal [1;2] (take_tr 2 [1;2;3]));
+]
+let _ = run_test_tt_main take_tr_tests
+
+let is_unimodal_tests = "test for list unimodality" >::: [
+  "empty list" >:: (fun _ -> assert_equal true (is_unimodal []));
+  "const list" >:: (fun _ -> assert_equal true (is_unimodal [1;1;1]));
+  "multiple element unimodal" >:: (fun _ -> assert_equal true (is_unimodal [1;2;4;1]));
+  "multiple element nonunimodal" >:: (fun _ -> assert_equal false (is_unimodal [1;2;3;2;3]));
+]
+let _ = run_test_tt_main is_unimodal_tests
