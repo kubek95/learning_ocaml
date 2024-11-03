@@ -107,3 +107,37 @@ let is_unimodal_tests = "test for list unimodality" >::: [
   "multiple element nonunimodal" >:: (fun _ -> assert_equal false (is_unimodal [1;2;3;2;3]));
 ]
 let _ = run_test_tt_main is_unimodal_tests
+
+let powerset_tests = "tests for powerset creation" >::: [
+  "empty list" >:: (fun _ -> assert_equal [[]] (powerset []));
+  "one element" >:: (fun _ -> assert_equal [[1];[]] (powerset [1]));
+  "multiple elements" >:: (fun _ -> assert_equal [[1;2];[1];[2];[]] (powerset [1;2]))
+]
+let _ = run_test_tt_main powerset_tests
+
+let () = print_int_list [1;2;3]
+let () = print_int_list' [1;2;3;4]
+
+let safe_hd_tests = "tests for safe hd" >::: [
+  "empty list" >:: (fun _ -> assert_equal None (safe_hd []));
+  "one element" >:: (fun _ -> assert_equal (Some 1) (safe_hd [1]));
+  "multiple elements" >:: (fun _ -> assert_equal (Some 1) (safe_hd [1;2]))
+]
+let safe_tl_tests = "tests for safe tl" >::: [
+  "empty list" >:: (fun _ -> assert_equal None (safe_tl []));
+  "one element" >:: (fun _ -> assert_equal (Some []) (safe_tl [1]));
+  "multiple elements" >:: (fun _ -> assert_equal (Some [2;3]) (safe_tl [1;2;3]))
+]
+let _ = run_test_tt_main safe_hd_tests
+let _ = run_test_tt_main safe_tl_tests
+
+let poke_with_45hp = {name="poke1"; hp=45; ptype=Fire}
+let poke_with_55hp = {name="poke2"; hp=55; ptype=Normal}
+let poke_with_65hp = {name="poke3"; hp=65; ptype=Fire}
+let pokefun_tests = "tests for pokemon with max hp" >::: [
+  "empty list" >:: (fun _ -> assert_equal None (max_hp []));
+  "one element" >:: (fun _ -> assert_equal (Some poke_with_45hp) (max_hp [poke_with_45hp]));
+  "multiple elements" >:: (fun _ -> assert_equal (Some poke_with_65hp) (max_hp [poke_with_45hp;poke_with_65hp;poke_with_55hp]));
+]
+
+let _ = run_test_tt_main pokefun_tests

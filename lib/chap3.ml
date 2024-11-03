@@ -80,3 +80,57 @@ let is_unimodal lst =
     if x < x' then is_asc_then_desc (x' :: xs) else is_mono_desc (x :: x' :: xs)
   in
   is_asc_then_desc lst
+
+(*10th exercise: powerset*)
+let rec powerset = function
+  | [] -> [[]]
+  | x :: xs ->
+    let p = powerset xs in
+    List.map (fun l -> x :: l) p @ p
+
+(*11th exercise: print int list rec*)
+let rec print_int_list = function
+  | [] -> ()
+  | x :: xs ->
+    let () = x |> string_of_int |> print_endline in
+    print_int_list xs
+
+(*12th exercise: print int list iter*)
+let print_int_list' lst =
+  let print_int x =
+    x |> string_of_int |> print_endline
+  in
+  List.iter print_int lst
+
+(*13th exercise: student*)
+type student = {first_name : string; last_name : string; gpa : float}
+let john_doe = {first_name="John"; last_name="Doe"; gpa=3.5}
+let get_student_name = function
+  | {first_name; last_name; _} -> (first_name, last_name)
+let create_student name surname gpa =
+  {first_name=name; last_name=surname; gpa=gpa}
+
+(*14th exercise: pokerecord*)
+type poketype = Normal | Fire | Water
+type pokemon = {name : string; hp : int; ptype : poketype}
+let charizard = {name="Charizard"; hp=78; ptype=Fire}
+let squirtle = {name="Squirtle"; hp=44; ptype=Water}
+
+(*15th exercise: safe hd and tl*)
+let safe_hd = function
+  | [] -> None
+  | x :: _ -> Some x
+
+let safe_tl = function
+  | [] -> None
+  | _ :: xs -> Some xs
+
+(*16th exercise: pokefun*)
+let max_hp lst =
+  let rec aux max = function
+  | [] -> Some max
+  | x :: xs -> if x.hp > max.hp then aux x xs else aux max xs
+in
+match lst with
+| [] -> None
+| x :: xs -> aux x xs
