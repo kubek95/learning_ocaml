@@ -134,3 +134,70 @@ in
 match lst with
 | [] -> None
 | x :: xs -> aux x xs
+
+(*17th exercise: date before*)
+type date = int*int*int
+let is_before (date1:date) (date2:date) : bool =
+  match date1 with (y1,m1,d1) ->
+    match date2 with (y2,m2,d2) ->
+      y1 < y2 || (y1=y2 && m1 < m2) || (y1=y2 && m1=m2 && d1 < d2)
+
+(*18th exercise: earliest date*)
+let rec earliest = function
+  | [] -> None
+  | x :: xs -> begin
+    match earliest xs with
+    | None -> Some x
+    | Some z -> if is_before x z then Some x else Some z
+  end
+
+(*19th exercise: assoc list*)
+let insert k v lst = (k,v) :: lst
+let rec lookup key = function
+ | [] -> None
+ | (k,v) :: xs -> if k=key then Some v else lookup key xs
+
+let assoc_list = insert 1 "one" (insert 2 "two" (insert 3 "three" []))
+let key_two = lookup 2 assoc_list
+let key_four = lookup 4 assoc_list
+
+(*20th exercise: cards*)
+type suit = Clubs | Diamonds | Hearts | Spades
+type rank = One | Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King | Ace
+type card = {rank : rank; suit : suit}
+
+let ace_of_clubs = {rank=Ace; suit=Spades}
+let queen_of_hearts = {rank=Queen; suit=Hearts}
+let seven_of_spades = {rank=Seven; suit=Spades}
+
+(*22nd exercise: quadrant*)
+type quad = I | II | III | IV
+type sign = Neg | Zero | Pos
+
+let sign (x:int) : sign =
+  match x with
+  | 0 -> Zero
+  | x -> if x < 0 then Neg else Pos
+
+let quadrant (point:int*int) : quad option =
+  let (x, y) = point in
+  match sign x, sign y with
+  | Pos, Pos -> Some I
+  | Neg, Pos -> Some II
+  | Neg, Neg -> Some III
+  | Pos, Neg -> Some IV
+  | _,_ -> None
+
+(*23rd exercise: quadrant when*)
+let quadrant_when = function
+| x,y when x>0 && y>0 -> Some I
+| x,y when x<0 && y>0 -> Some II
+| x,y when x<0 && y<0 -> Some III
+| x,y when x>0 && y<0 -> Some IV
+| _ -> None
+
+(*24th exercise: depth*)
+type 'a tree = Leaf | Node of 'a * 'a tree * 'a tree
+let rec depth = function
+| Leaf -> 0
+| Node(_, left, right) -> 1 + max (depth left) (depth right)

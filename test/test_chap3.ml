@@ -141,3 +141,53 @@ let pokefun_tests = "tests for pokemon with max hp" >::: [
 ]
 
 let _ = run_test_tt_main pokefun_tests
+
+let date_before_tests = "tests for check if date is before other one" >::: [
+  "same dates" >:: (fun _ -> assert_equal false (is_before (1995, 12, 12) (1995, 12, 12)));
+  "same year" >:: (fun _ -> assert_equal true (is_before (1995, 11, 12) (1995, 12, 12)));
+  "same month" >:: (fun _ -> assert_equal true (is_before (1995, 11, 12) (1995, 11, 13)));
+]
+let _ = run_test_tt_main date_before_tests
+
+let earliest_date_tests = "tests for earliest date from list" >::: [
+  "empty list" >:: (fun _ -> assert_equal None (earliest []));
+  "multiple dates" >:: (fun _ -> assert_equal (Some (1995, 11, 12)) (earliest [(1997, 12, 12);(1995, 11, 12);(1996, 12, 12)]));
+]
+let _ = run_test_tt_main earliest_date_tests
+
+let assoc_list_tests = "tests for association list" >::: [
+  "list is constructed properly" >:: (fun _ -> assert_equal [(1,"one");(2,"two");(3,"three")] assoc_list);
+  "existing el lookup" >:: (fun _ -> assert_equal (Some "two") key_two);
+  "non existent el lookup" >:: (fun _ -> assert_equal None key_four);
+]
+let _ = run_test_tt_main assoc_list_tests
+
+let quadrant_tests = "tests for coordinates quadrants" >::: [
+  "origin" >:: (fun _ -> assert_equal None (quadrant (0,0)));
+  "first quadrant" >:: (fun _ -> assert_equal (Some I) (quadrant (1,1)));
+  "second quadrant" >:: (fun _ -> assert_equal (Some II) (quadrant (-1,1)));
+  "third quadrant" >:: (fun _ -> assert_equal (Some III) (quadrant (-1,-1)));
+  "fourth quadrant" >:: (fun _ -> assert_equal (Some IV) (quadrant (1,-1)));
+  "on x axis" >:: (fun _ -> assert_equal None (quadrant (0,1)));
+  "on y axis" >:: (fun _ -> assert_equal None (quadrant (1,0)))
+]
+let _ = run_test_tt_main quadrant_tests
+
+let quadrant_when_tests = "tests for coordinates quadrants" >::: [
+  "origin" >:: (fun _ -> assert_equal None (quadrant_when (0,0)));
+  "first quadrant" >:: (fun _ -> assert_equal (Some I) (quadrant_when (1,1)));
+  "second quadrant" >:: (fun _ -> assert_equal (Some II) (quadrant_when (-1,1)));
+  "third quadrant" >:: (fun _ -> assert_equal (Some III) (quadrant_when (-1,-1)));
+  "fourth quadrant" >:: (fun _ -> assert_equal (Some IV) (quadrant_when (1,-1)));
+  "on x axis" >:: (fun _ -> assert_equal None (quadrant_when (0,1)));
+  "on y axis" >:: (fun _ -> assert_equal None (quadrant_when (1,0)))
+]
+let _ = run_test_tt_main quadrant_when_tests
+
+let tree_depth_test = "test for tree depth" >::: [
+  "empty tree" >:: (fun _ -> assert_equal 0 (depth Leaf));
+  "only root" >:: (fun _ -> assert_equal 1 (depth (Node(1,Leaf, Leaf))));
+  "left subtree deeper" >:: (fun _ -> assert_equal 2 (depth (Node(1,Node(2,Leaf,Leaf), Leaf))));
+  "right subtree deeper" >:: (fun _ -> assert_equal 2 (depth (Node(1,Leaf,Node(2,Leaf,Leaf)))));
+]
+let _ = run_test_tt_main 
