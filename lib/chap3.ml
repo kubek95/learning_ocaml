@@ -196,3 +196,35 @@ type 'a tree = Leaf | Node of 'a * 'a tree * 'a tree
 let rec depth = function
   | Leaf -> 0
   | Node (_, left, right) -> 1 + max (depth left) (depth right)
+
+(*25th exercise: shape*)
+let rec same_shape tree1 tree2 =
+  match (tree1, tree2) with
+  | Leaf, Leaf -> true
+  | Leaf, Node _ -> false
+  | Node _, Leaf -> false
+  | Node (_, l1, r1), Node (_, l2, r2) -> same_shape l1 l2 && same_shape r1 r2
+
+(*26th exercise: list max exn*)
+let rec list_max = function
+  | [] -> raise (Failure "list max")
+  | [ x ] -> x
+  | x :: xs -> max x (list_max xs)
+
+(*27th exercise: list max exn string*)
+let list_max_string lst =
+  try list_max lst |> string_of_int with Failure _ -> "empty"
+
+(*28th exercise: is_bst*)
+let is_bst = failwith "TODO"
+
+(*29th exercise: quadrant poly*)
+let sign = function x when x < 0 -> `Neg | x when x = 0 -> `Zero | _ -> `Pos
+
+let quadrant (x, y) =
+  match (sign x, sign y) with
+  | `Pos, `Pos -> Some `I
+  | `Neg, `Pos -> Some `II
+  | `Neg, `Neg -> Some `III
+  | `Pos, `Neg -> Some `IV
+  | _ -> None

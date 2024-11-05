@@ -317,4 +317,40 @@ let tree_depth_test =
            assert_equal 2 (depth (Node (1, Leaf, Node (2, Leaf, Leaf)))) );
        ]
 
-let _ = run_test_tt_main
+let _ = run_test_tt_main tree_depth_test
+let tree1 = Node (1, Node (2, Leaf, Leaf), Leaf)
+let tree2 = Node (1, Leaf, Node (2, Leaf, Leaf))
+
+let tree_shape_test =
+  "test for tree shape"
+  >::: [
+         ("empty tree" >:: fun _ -> assert_equal true (same_shape Leaf Leaf));
+         ("left empty" >:: fun _ -> assert_equal false (same_shape Leaf tree1));
+         ("right empty" >:: fun _ -> assert_equal false (same_shape tree1 Leaf));
+         ( "two different trees" >:: fun _ ->
+           assert_equal false (same_shape tree1 tree2) );
+         ("same trees" >:: fun _ -> assert_equal true (same_shape tree1 tree1));
+       ]
+
+let _ = run_test_tt_main tree_shape_test
+
+let list_max_test =
+  "test for max element from a list"
+  >::: [
+         ( "empty list" >:: fun _ ->
+           assert_raises (Failure "list max") (fun () -> list_max []) );
+         ( "multiple element list" >:: fun _ ->
+           assert_equal 6 (list_max [ 1; 2; 6; 4; 3 ]) );
+       ]
+
+let _ = run_test_tt_main list_max_test
+
+let list_max_str_test =
+  "test for max element string from a list"
+  >::: [
+         ("empty list" >:: fun _ -> assert_equal "empty" (list_max_string []));
+         ( "multiple element list" >:: fun _ ->
+           assert_equal "6" (list_max_string [ 1; 2; 6; 4; 3 ]) );
+       ]
+
+let _ = run_test_tt_main list_max_str_test
