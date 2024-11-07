@@ -216,12 +216,11 @@ let list_max_string lst =
   try list_max lst |> string_of_int with Failure _ -> "empty"
 
 (*28th exercise: is_bst*)
-let is_bst = failwith "TODO"
 
 (*29th exercise: quadrant poly*)
 let sign = function x when x < 0 -> `Neg | x when x = 0 -> `Zero | _ -> `Pos
 
-let quadrant (x, y) =
+let quadrant' (x, y) =
   match (sign x, sign y) with
   | `Pos, `Pos -> Some `I
   | `Neg, `Pos -> Some `II
