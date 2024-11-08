@@ -1,2 +1,3 @@
 (library
- (name Chap3))
+ (public_name LearningOcaml.Solutions)
+ (name Solutions))
